@@ -1,36 +1,26 @@
 import { NavBar, NavOption } from "@/components/ui/navBar";
 
 import { Button } from "@/components/ui/button";
+import { getCategoryList } from "@/features/category/service";
 
-const categories = [
-	{
-		title: "Все новости",
-		href: "/news/all",
-	},
-	{
-		title: "Футбол",
-		href: "/news/football",
-	},
-	{
-		title: "Хоккей",
-		href: "/news/hockey",
-	},
-	{
-		title: "Баскетбол",
-		href: "/news/basketball",
-	},
-];
-
-const navOptions: NavOption[] = categories.map(({ href, title }) => ({
-	href,
-	element: <Button className="font-[700] text-[14px] leading-[17.89px]">{title}</Button>,
-}));
-
-export default function NewsCategoryLayout({
+export default async function NewsCategoryLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const categoryList = await getCategoryList();
+	const navOptions: NavOption[] = [
+		{
+			href: "/news",
+			element: <Button className="font-[700] text-[14px] leading-[17.89px]">Все новости</Button>,
+			end: true,
+		},
+		...categoryList.map((category) => ({
+			href: `/news/${category.id}`,
+			element: <Button className="font-[700] text-[14px] leading-[17.89px]">{category.title}</Button>,
+		})),
+	];
+
 	return (
 		<div className="flex flex-col gap-[28px]">
 			<NavBar
