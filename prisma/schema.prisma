@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
@@ -10,25 +10,25 @@ datasource db {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model broadcast {
-  id          BigInt   @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
   source_url  String   @db.VarChar(200)
   cover       String   @db.VarChar(100)
   start_time  DateTime @db.Timestamptz(6)
   end_time    DateTime @db.Timestamptz(6)
-  category_id BigInt
+  category_id Int
   category    category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "broadcast_category_id_5a1c0ee0_fk_category_id")
 
   @@index([category_id], map: "broadcast_category_id_5a1c0ee0")
 }
 
 model category {
-  id                BigInt              @id @default(autoincrement())
-  title             String              @db.VarChar(255)
-  broadcast         broadcast[]
-  home_news_section home_news_section[]
-  news              news[]
-  video             video[]
+  id           Int            @id @default(autoincrement())
+  title        String         @db.VarChar(255)
+  broadcast    broadcast[]
+  news         news[]
+  news_section news_section[]
+  video        video[]
 }
 
 model django_migrations {
@@ -39,34 +39,22 @@ model django_migrations {
 }
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model home_news_section {
-  id                      BigInt   @id @default(autoincrement())
-  is_displayed_in_body    Boolean
-  is_displayed_in_sidebar Boolean
-  priority                Int
-  category_id             BigInt
-  category                category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "home_news_section_category_id_1b88ffbb_fk_category_id")
-
-  @@index([category_id], map: "home_news_section_category_id_1b88ffbb")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model news {
-  id           BigInt   @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   title        String   @db.VarChar(255)
   description  String   @db.VarChar(255)
   image        String   @db.VarChar(100)
   content      String
   is_exclusive Boolean
   is_material  Boolean
-  category_id  BigInt
+  category_id  Int
   category     category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "news_category_id_798ee23f_fk_category_id")
 
   @@index([category_id], map: "news_category_id_798ee23f")
 }
 
 model site_background {
-  id            BigInt          @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   title         String?         @db.VarChar(255)
   src           String          @db.VarChar(100)
   site_settings site_settings[]
@@ -74,26 +62,26 @@ model site_background {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model site_settings {
-  id              BigInt           @id @default(autoincrement())
-  background_id   BigInt?
+  id              Int              @id @default(autoincrement())
+  background_id   Int?
   site_background site_background? @relation(fields: [background_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "site_settings_background_id_0ce86662_fk_site_background_id")
 
   @@index([background_id], map: "site_settings_background_id_0ce86662")
 }
 
 model tag {
-  id        BigInt      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   title     String      @db.VarChar(255)
   video_tag video_tag[]
 }
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model video {
-  id          BigInt      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   title       String      @db.VarChar(255)
   source_url  String      @db.VarChar(200)
   cover       String      @db.VarChar(100)
-  category_id BigInt
+  category_id Int
   category    category    @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_category_id_517fb5c3_fk_category_id")
   video_tag   video_tag[]
 
@@ -102,13 +90,25 @@ model video {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model video_tag {
-  id       BigInt @id @default(autoincrement())
-  tag_id   BigInt
-  video_id BigInt
-  tag      tag    @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_tag_id_56292d45_fk_tag_id")
-  video    video  @relation(fields: [video_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_video_id_fb183086_fk_video_id")
+  id       Int   @id @default(autoincrement())
+  tag_id   Int
+  video_id Int
+  tag      tag   @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_tag_id_56292d45_fk_tag_id")
+  video    video @relation(fields: [video_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_video_id_fb183086_fk_video_id")
 
   @@unique([video_id, tag_id], map: "video_tag_video_id_tag_id_735f049b_uniq")
   @@index([tag_id], map: "video_tag_tag_id_56292d45")
   @@index([video_id], map: "video_tag_video_id_fb183086")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model news_section {
+  id                        Int      @id @default(autoincrement())
+  is_displayed_in_home_page Boolean
+  is_displayed_in_sidebar   Boolean
+  priority                  Int
+  category_id               Int
+  category                  category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "news_section_category_id_f3dfb2f8_fk_category_id")
+
+  @@index([category_id], map: "news_section_category_id_f3dfb2f8")
 }
