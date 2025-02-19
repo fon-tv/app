@@ -5,12 +5,14 @@ import { cn } from "@/lib/utils";
 
 type NewsCardProps = { news: News } & ComponentProps<"article">;
 
+const defaultClassName = "relative h-[141px] w-full md:h-[215px] rounded-md bg-surface p-[10px] flex flex-row gap-[20px]"
+
 export function NewsCard({ news, className, ...props }: NewsCardProps) {
-	const fullClassname = cn(["", className]);
+	const cName = cn([defaultClassName, className]);
 	return (
 		<article
 			{...props}
-			className={"relative h-[141px] w-full md:h-[215px] rounded-md bg-surface p-[10px] flex flex-row gap-[20px]"}
+			className={cName}
 		>
 			<Link className="top-0 right-0 bottom-0 left-0 absolute" href={`/news/${news.id}`}/>
 			<div className="bg-gray-700 rounded-md grow-0 w-[100px] md:w-[264px] lg:w-[379px] h-[121px] md:h-[195px] shrink-0"></div>
