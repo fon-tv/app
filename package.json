@@ -12,6 +12,7 @@
     "@million/lint": "^1.0.14",
     "@prisma/adapter-pg": "^6.4.0",
     "@prisma/client": "^6.4.0",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -22,6 +23,7 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
