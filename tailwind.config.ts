@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import  animate from "tailwindcss-animate";
 
 export default {
     darkMode: ["class"],
@@ -6,6 +7,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+	"./src/features/**/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
@@ -48,7 +50,7 @@ export default {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
-  			border: 'hsl(var(--border))',
+  			border: 'var(--border)',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
   			chart: {
@@ -66,5 +68,5 @@ export default {
   		}
   	}
   },
-//   plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 } satisfies Config;
