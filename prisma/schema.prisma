@@ -10,6 +10,8 @@ datasource db {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model broadcast {
+  created_at  DateTime @db.Timestamptz(6)
+  updated_at  DateTime @db.Timestamptz(6)
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
   source_url  String   @db.VarChar(200)
@@ -23,6 +25,8 @@ model broadcast {
 }
 
 model category {
+  created_at   DateTime       @db.Timestamptz(6)
+  updated_at   DateTime       @db.Timestamptz(6)
   id           Int            @id @default(autoincrement())
   title        String         @db.VarChar(255)
   broadcast    broadcast[]
@@ -40,9 +44,10 @@ model django_migrations {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model news {
+  created_at   DateTime @db.Timestamptz(6)
+  updated_at   DateTime @db.Timestamptz(6)
   id           Int      @id @default(autoincrement())
   title        String   @db.VarChar(255)
-  description  String   @db.VarChar(255)
   image        String   @db.VarChar(100)
   content      String
   is_exclusive Boolean
@@ -54,6 +59,8 @@ model news {
 }
 
 model site_background {
+  created_at    DateTime        @db.Timestamptz(6)
+  updated_at    DateTime        @db.Timestamptz(6)
   id            Int             @id @default(autoincrement())
   title         String?         @db.VarChar(255)
   src           String          @db.VarChar(100)
@@ -62,6 +69,8 @@ model site_background {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model site_settings {
+  created_at      DateTime         @db.Timestamptz(6)
+  updated_at      DateTime         @db.Timestamptz(6)
   id              Int              @id @default(autoincrement())
   background_id   Int?
   site_background site_background? @relation(fields: [background_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "site_settings_background_id_0ce86662_fk_site_background_id")
@@ -70,13 +79,17 @@ model site_settings {
 }
 
 model tag {
-  id        Int         @id @default(autoincrement())
-  title     String      @db.VarChar(255)
-  video_tag video_tag[]
+  created_at DateTime    @db.Timestamptz(6)
+  updated_at DateTime    @db.Timestamptz(6)
+  id         Int         @id @default(autoincrement())
+  title      String      @db.VarChar(255)
+  video_tag  video_tag[]
 }
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model video {
+  created_at  DateTime    @db.Timestamptz(6)
+  updated_at  DateTime    @db.Timestamptz(6)
   id          Int         @id @default(autoincrement())
   title       String      @db.VarChar(255)
   source_url  String      @db.VarChar(200)
@@ -90,11 +103,13 @@ model video {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model video_tag {
-  id       Int   @id @default(autoincrement())
-  tag_id   Int
-  video_id Int
-  tag      tag   @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_tag_id_56292d45_fk_tag_id")
-  video    video @relation(fields: [video_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_video_id_fb183086_fk_video_id")
+  created_at DateTime @db.Timestamptz(6)
+  updated_at DateTime @db.Timestamptz(6)
+  id         Int      @id @default(autoincrement())
+  tag_id     Int
+  video_id   Int
+  tag        tag      @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_tag_id_56292d45_fk_tag_id")
+  video      video    @relation(fields: [video_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "video_tag_video_id_fb183086_fk_video_id")
 
   @@unique([video_id, tag_id], map: "video_tag_video_id_tag_id_735f049b_uniq")
   @@index([tag_id], map: "video_tag_tag_id_56292d45")
@@ -103,6 +118,8 @@ model video_tag {
 
 /// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
 model news_section {
+  created_at                DateTime @db.Timestamptz(6)
+  updated_at                DateTime @db.Timestamptz(6)
   id                        Int      @id @default(autoincrement())
   is_displayed_in_home_page Boolean
   is_displayed_in_sidebar   Boolean
