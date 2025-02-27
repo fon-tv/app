@@ -1,7 +1,19 @@
-import { NavBar, NavOption } from "@/components/ui/navBar";
+import { NavLinks, NavLinksProps } from "@/components/ui/navLinks";
 
 import { Button } from "@/components/ui/button";
-import { getCategoryList } from "@/features/category/service";
+import { OverflowRow } from "@/components/ui/overflowRow";
+import { Plus } from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
+
+const getCategoryList = unstable_cache(
+	async () => {
+		return await prisma.category.findMany();
+	},
+	undefined,
+	{ revalidate: 10, tags: ["categoryList"] }
+);
+
 
 export default async function NewsCategoryLayout({
 	children,
@@ -9,7 +21,7 @@ export default async function NewsCategoryLayout({
 	children: React.ReactNode;
 }>) {
 	const categoryList = await getCategoryList();
-	const navOptions: NavOption[] = [
+	const navLinks: NavLinksProps["links"] = [
 		{
 			href: "/news",
 			element: <Button className="font-[700] text-[14px] leading-[17.89px]">Все новости</Button>,
@@ -23,11 +35,17 @@ export default async function NewsCategoryLayout({
 
 	return (
 		<div className="flex flex-col gap-[28px]">
-			<NavBar
-				options={navOptions}
-				navLinkClassName="[&.active_*]:bg-primary"
-				className="flex flex-row gap-[10px] h-[40px]"
-			/>
+			<OverflowRow
+				wrapperElement={"nav"}
+				className="flex flex-row gap-[10px] h-[30px] lg:h-[40px]"
+				showTrigger={
+					<Button className="bg-primary size-[30px] lg:size-[40px]">
+						<Plus />
+					</Button>
+				}
+			>
+				<NavLinks links={navLinks} navLinkClassName="[&.active_*]:bg-primary h-[30px] lg:h-[40px]" />
+			</OverflowRow>
 			<ul className="flex flex-col gap-[10px]">{children}</ul>
 		</div>
 	);
